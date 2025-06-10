@@ -22,6 +22,19 @@ def main():
     Move your finger/mouse to control the chef and tap to shoot puris.
     """)
     
+    # Add some game instructions
+    with st.expander("How to Play"):
+        st.markdown("""
+        - Use your mouse or finger to move the chef left and right
+        - Click or tap to shoot puris at the incoming samosas
+        - Don't let the samosas reach your stall!
+        - Score points for each samosa you hit
+        """)
+    
+    # Add a high scores section
+    st.sidebar.title("High Scores")
+    st.sidebar.write("Coming soon...")
+    
     # Load HTML file
     html_file = Path(__file__).parent / "index.html"
     
@@ -29,10 +42,22 @@ def main():
         with open(html_file, "r", encoding="utf-8") as f:
             html_content = f.read()
         
-        # Display the game
-        st.components.v1.html(html_content, height=800, scrolling=True)
+        # Display the game with a nicer border
+        st.markdown("---")
+        st.components.v1.html(html_content, height=600, scrolling=False)
+        st.markdown("---")
+        
+        # Add a restart button
+        if st.button("Restart Game"):
+            st.experimental_rerun()
     else:
         st.error("Game file not found. Please make sure index.html exists in the same directory.")
+        
+    # Footer
+    st.markdown("""
+    ---
+    Made with ❤️ by Pani-Puri lovers everywhere
+    """)
 
 if __name__ == "__main__":
     main()
