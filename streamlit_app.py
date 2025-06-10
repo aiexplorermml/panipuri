@@ -36,7 +36,7 @@ def main():
     st.sidebar.write("Coming soon...")
     
     # Load HTML file
-    html_file = Path(__file__).parent / "index.html"
+    html_file = Path(__file__).parent / "puri.html"
     
     if html_file.exists():
         with open(html_file, "r", encoding="utf-8") as f:
