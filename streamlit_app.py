@@ -1,6 +1,5 @@
 import streamlit as st
 from pathlib import Path
-import os
 
 # Set page config
 st.set_page_config(
@@ -11,7 +10,7 @@ st.set_page_config(
 )
 
 def main():
-    st.title("Pani-Puri Defender �")
+    st.title("Pani-Puri Defender 🍘")
     st.markdown("""
     ### Protect your Pani-Puri stall from evil samosas! 😊
     Move your finger/mouse to control the chef and tap to shoot puris.
@@ -28,28 +27,26 @@ def main():
     
     # Game container
     st.markdown("---")
-    game_container = st.empty()
-    st.markdown("---")
     
-    # Check for HTML file
+    # Check for HTML file (now looking for puri.html)
     html_file = Path(__file__).parent / "puri.html"
     
     if html_file.exists():
         try:
             with open(html_file, "r", encoding="utf-8") as f:
                 html_content = f.read()
-            game_container.components.v1.html(html_content, height=600, scrolling=False)
+            # Fixed components usage
+            st.components.v1.html(html_content, height=600, scrolling=False)
         except Exception as e:
             st.error(f"Error loading game: {str(e)}")
     else:
         st.error("""
         Game file not found. Please make sure:
-        1. index.html exists in the same directory
-        2. The file is named exactly 'index.html'
-        3. All game assets are in an 'assets' folder
+        1. puri.html exists in the same directory
+        2. The file is named exactly 'puri.html'
         """)
-        st.info("Create a basic game file by running this in your terminal:")
-        st.code("echo '<h1>Game coming soon!</h1>' > index.html", language="bash")
+        st.info("Create a basic placeholder file by running:")
+        st.code("echo '<h1>Game loading...</h1>' > puri.html", language="bash")
 
     # Footer
     st.markdown("""
