@@ -1,6 +1,6 @@
 import streamlit as st
-import base64
 from pathlib import Path
+import os
 
 # Set page config
 st.set_page_config(
@@ -10,53 +10,51 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-def get_base64_encoded_file(file_path):
-    """Return base64 encoded file"""
-    with open(file_path, "rb") as f:
-        return base64.b64encode(f.read()).decode('utf-8')
-
 def main():
-    st.title("Pani-Puri Defender 🍘")
+    st.title("Pani-Puri Defender �")
     st.markdown("""
-    ### Protect your Pani-Puri stall from evil samosas!
+    ### Protect your Pani-Puri stall from evil samosas! 😊
     Move your finger/mouse to control the chef and tap to shoot puris.
     """)
     
-    # Add some game instructions
+    # How to Play section
     with st.expander("How to Play"):
         st.markdown("""
-        - Use your mouse or finger to move the chef left and right
-        - Click or tap to shoot puris at the incoming samosas
-        - Don't let the samosas reach your stall!
-        - Score points for each samosa you hit
+        - ← → Move the chef with mouse/finger
+        - 🖱️ Click/Tap to shoot puris
+        - 💥 Hit samosas to score points
+        - ❌ Don't let samosas reach your stall!
         """)
     
-    # Add a high scores section
-    st.sidebar.title("High Scores")
-    st.sidebar.write("Coming soon...")
+    # Game container
+    st.markdown("---")
+    game_container = st.empty()
+    st.markdown("---")
     
-    # Load HTML file
+    # Check for HTML file
     html_file = Path(__file__).parent / "puri.html"
     
     if html_file.exists():
-        with open(html_file, "r", encoding="utf-8") as f:
-            html_content = f.read()
-        
-        # Display the game with a nicer border
-        st.markdown("---")
-        st.components.v1.html(html_content, height=600, scrolling=False)
-        st.markdown("---")
-        
-        # Add a restart button
-        if st.button("Restart Game"):
-            st.experimental_rerun()
+        try:
+            with open(html_file, "r", encoding="utf-8") as f:
+                html_content = f.read()
+            game_container.components.v1.html(html_content, height=600, scrolling=False)
+        except Exception as e:
+            st.error(f"Error loading game: {str(e)}")
     else:
-        st.error("Game file not found. Please make sure index.html exists in the same directory.")
-        
+        st.error("""
+        Game file not found. Please make sure:
+        1. index.html exists in the same directory
+        2. The file is named exactly 'index.html'
+        3. All game assets are in an 'assets' folder
+        """)
+        st.info("Create a basic game file by running this in your terminal:")
+        st.code("echo '<h1>Game coming soon!</h1>' > index.html", language="bash")
+
     # Footer
     st.markdown("""
     ---
-    Made with ❤️ by Pani-Puri lovers everywhere
+    **Made with ❤️ by Pani-Puri lovers everywhere**
     """)
 
 if __name__ == "__main__":
