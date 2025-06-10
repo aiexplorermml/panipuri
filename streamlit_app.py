@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 from pathlib import Path
 
 # Set page config
@@ -9,14 +10,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Function to read the HTML file
-def read_html_file():
-    # Get the path to the HTML file (assuming it's in the same directory)
-    html_path = Path(__file__).parent / "index.html"
-    with open(html_path, "r", encoding="utf-8") as f:
-        return f.read()
+def get_base64_encoded_file(file_path):
+    """Return base64 encoded file"""
+    with open(file_path, "rb") as f:
+        return base64.b64encode(f.read()).decode('utf-8')
 
-# Main app
 def main():
     st.title("Pani-Puri Defender 🍘")
     st.markdown("""
@@ -24,9 +22,17 @@ def main():
     Move your finger/mouse to control the chef and tap to shoot puris.
     """)
     
-    # Display the game
-    html_content = read_html_file()
-    st.components.v1.html(html_content, height=800, scrolling=True)
+    # Load HTML file
+    html_file = Path(__file__).parent / "index.html"
+    
+    if html_file.exists():
+        with open(html_file, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        
+        # Display the game
+        st.components.v1.html(html_content, height=800, scrolling=True)
+    else:
+        st.error("Game file not found. Please make sure index.html exists in the same directory.")
 
 if __name__ == "__main__":
     main()
