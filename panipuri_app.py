@@ -16,7 +16,7 @@ st.markdown("Shoot puris to protect your stall from samosas! 👆🍽️")
 # Load and display the game HTML
 try:
     html = Path("puri.html").read_text()
-    st.components.v1.html(html, width=400, height=600, scrolling=False)
+    st.components.v1.html(html, width=600, height=600, scrolling=False,layout="centered",)
 except:
     st.error("Game file (puri.html) not found in the same directory")
 
